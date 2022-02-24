@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/css/cart.css">
+    <link rel="stylesheet" href="/css/partials.css">
+    <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrito</title>
+</head>
+<body>
+    <!--BANNER-->
+    <%- include('./partials/banner') %>
+    <!--PRODUCT CART-->
+    <section class="cart_background">
+        <div class="cart_right"> 
+            <h2>Carrito</h2>
+            <div class="cart_right_container">
+                <% let total = 0 %>
+                <% if (userLogged.cart > 0) { %>               
+                    <% for( let i = 0; i < products.length; i++ ) { %>
+                        <div class="cart_right_product">
+                            <div class="cart_right_product_img">
+                                <img src="/images/products/<%= products[i].products.img %>" alt="">
+                            </div>
+                            <div class="cart_right_product_info">
+                                <p><%= products[i].products.name %></p>
+                                <p>$<%= products[i].products.price %></p>
+                                <form method="POST" action="/product/<%= products[i].products.id %>/delete?_method=DELETE">
+                                    <button type="submit">Borrar</button>
+                                </form>
+                            </div>
+                        </div>
+                        <% total = total + parseInt(products[i].products.price) %> 
+                    <% } %>
+                <% } %>
+            </div>
+        </div>
+        <div class="cart_left">
+            <div class="cart_left_container">
+                <p>Detalles</p>
+                <p>Productos: <span><%= userLogged.cart > 0 ? products.length : 0 %></span></p>
+                <p>Total: <span>$<%= total %></span></p>
+                <a href="">Comprar</a>
+            </div>
+        </div>
+    </section>
+    <!--FOOTER-->
+    <%- include('./partials/footer') %> 
+</body>
+</html>

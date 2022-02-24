@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/css/forms.css">
+    <link rel="stylesheet" href="/css/partials.css">
+    <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+</head>
+
+<body>
+    <!--BANNER-->
+    <%- include('./partials/banner') %>
+    <!--ADMIN-->
+    <%- include('./partials/admin') %>
+        <!--FORM-->
+        <section class="form_section">
+            <form action="/product/edit/<%= locals.oldData ? locals.id : product.id %>/form?_method=PUT" class="form" method="POST">
+                <h2 class="tituloProducto">Editar Producto</h2>
+
+                <div>
+                    <ul class="tablaErrores"></ul>
+                </div>
+                
+                <label for="name">Nombre</label>
+                <input name="name" type="text" value="<%= locals.oldData ? oldData.name : product.name %>" class="<%= locals.errors && errors.name ? 'invalidInput' : null %>">
+                <% if (locals.errors && errors.name) { %>
+                    <div class="invalid">
+                        <%= errors.name.msg %> 
+                    </div>
+                <% } %>
+
+                <label for="price">Precio</label>
+                <input name="price" type="number" value="<%= locals.oldData ? oldData.price : product.price %>" class="<%= locals.errors && errors.price ? 'invalidInput' : null %>">
+                    <% if (locals.errors && errors.price) { %>
+                        <div class="invalid">
+                            <%= errors.price.msg %> 
+                        </div>
+                    <% } %>
+
+                <label for="category">Categoria</label>
+                <select name="category">
+                    <option <%= locals.product && product.category == 'tortas' ? 'selected' : null %> value="tortas">Tortas</option>
+                    <option <%= locals.product && product.category == 'galletas' ? 'selected' : null %> value="galletas">Galletas</option>
+                    <option <%= locals.product && product.category == 'muffins' ? 'selected' : null %> value="muffins">Muffins</option>
+                </select>
+                
+                <label for="description">Descripción</label>
+                <input name="description" type="text" value="<%= locals.oldData ? oldData.description : product.description %>" class="<%= locals.errors && errors.description ? 'invalidInput' : null %>">
+                <% if (locals.errors && errors.description) { %>
+                 <div class="invalid">
+                     <%= errors.description.msg %> 
+                 </div>
+                <% } %>
+
+                <button type="submit">Editar Producto</button>
+            </form>
+            <form action="/product/edit/<%= locals.oldData ? locals.id : product.id %>/form?_method=DELETE" method="POST" class="delete_form">
+                <button type="submit">Borrar Producto</button>
+            </form>
+        </section>
+        <!--FOOTER-->
+        <%- include('./partials/footer') %>
+
+        <script src="/js/validations.js"></script>
+</body>
+</html>

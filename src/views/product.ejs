@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/css/product.css">
+    <link rel="stylesheet" href="/css/partials.css">
+    <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+</head>
+<body>
+    <!--BANNER-->
+    <%- include('./partials/banner') %> 
+    <!--PRODUCT-->
+    <section class="product_background">
+        <div class="product">
+            <!-- <h2><%= locals.product ? locals.product.name : null %></h2> -->
+            <div class="product_details">
+                <div class="product_detail_img">
+                    <img src="/images/products/<%= locals.product ? locals.product.img : null %>" alt="">
+                </div>
+                <a href="/">
+                    <i class='bx bx-arrow-back'></i>
+                </a>
+                <div class="title_background"></div>
+                <div class="product_details_pay">
+                    <div>
+                        <i class='bx bxs-star'></i>
+                        <i class='bx bxs-star'></i>
+                        <i class='bx bxs-star'></i>
+                        <i class='bx bxs-star'></i>
+                        <i class='bx bxs-star'></i>
+                    </div>
+                    <span>$<%= locals.product ? locals.product.price : null %> </span>
+                    <h2><%= locals.product ? locals.product.name : null %></h2>
+                    <p class="product_description"><%= locals.product ? locals.product.description : null %></p>
+                    <form action="/product/<%= locals.product ? locals.product.id : null %>" method="POST">
+                        <button class="product_addToCart" type="submit">AÑADIR AL CARRITO <i class='bx bxs-cart-alt'></i></button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!--POP UP-->
+        <% if (locals.popup && popup != null) { %>
+            <section class="product_popup_modal">
+                <div class="product_popup">
+                    <p>PRODUCTO AÑADIDO</p>
+                    <a href="/product/cart">Ir al carrito</a>
+                    <button class="product_popup_btn">Seguir comprando</button>
+                </div>
+            </section>
+        <% } %>
+
+        <!--POP UP VER MAS-->
+        <section class="vermas_popup_modal displayNone">
+            <div class="vermas_popup">
+                <p><%= locals.product ? locals.product.description : null %></p>
+                <button class="vermas_popup_btn">Cerrar</button>
+            </div>
+        </section>
+        
+        <!-- <div class="info">
+            <div class="info_div">
+                <i class='bx bxl-whatsapp'></i>
+                <div>
+                    <p>Whatsapp:</p>
+                    <span>11 1234 5678</span>
+                </div>
+            </div>
+            <div class="info_div info_card">
+                <i class='bx bxs-credit-card'></i>
+                <p>Todos los medios de pago</p>
+            </div>
+            <div class="info_div">
+                <i class='bx bxs-phone'></i>
+                <div>
+                    <p>Tel:</p>
+                    <span>11 1234 5678</span>
+                </div>
+            </div>
+        </div> -->
+        
+        <div class="related">
+            <h3>PORDUCTOS RELACIONADOS</h3>
+            <div class="related_underline"></div>
+            <div class="related_grid">
+                <% for( let i = 0; i < related.length; i++ ) { %>
+                    <div class="related_product">
+                        <div class="related_product_img">
+                            <img src="/images/products/<%= related[i].img %>" alt="">
+                        </div>
+                        <a href="/product/<%= related[i].id %>/show">ver mas</a>
+                    </div>
+                    <% } %>
+                </div>
+            </div>
+        </section>
+        <!--FOOTER-->
+        <%- include('./partials/footer') %> 
+</body>
+</html>
+<script>
+    //Popup
+    const popup = document.querySelector('.product_popup_modal');
+    const popupBtn = document.querySelector('.product_popup_btn');
+
+    popupBtn?.addEventListener('click', ()=> {
+        popup.classList.add('displayNone');
+    });
+
+    //Description overflow
+    const productDescription = document.querySelector('.product_description');
+    let verMas = document.createElement('a')
+    
+    if(productDescription.innerHTML.length > 95) {
+        verMas.innerHTML = 'ver mas'
+        productDescription.innerHTML = productDescription.innerHTML.substring(0, 96) + '...';
+        productDescription.appendChild(verMas);
+    }
+
+    const vermasPopUp = document.querySelector('.vermas_popup_modal');
+    verMas.addEventListener('click', ()=> {
+        vermasPopUp.classList.remove('displayNone');
+    })
+
+    const vermasCerrarBtn = document.querySelector('.vermas_popup_btn');
+    vermasCerrarBtn.addEventListener('click', ()=> {
+        vermasPopUp.classList.add('displayNone');
+    })
+
+</script>
